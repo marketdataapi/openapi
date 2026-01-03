@@ -1,0 +1,67 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - Rate Limit Headers
+  version: '1'
+
+components:
+  parameters:
+    RateLimitLimit:
+      name: X-Rate-Limit-Limit
+      in: header
+      description: Maximum number of requests allowed in the current time window
+      required: false
+      schema:
+        type: integer
+        example: 100
+    
+    RateLimitRemaining:
+      name: X-Rate-Limit-Remaining
+      in: header
+      description: Number of requests remaining in the current time window
+      required: false
+      schema:
+        type: integer
+        example: 42
+    
+    RateLimitReset:
+      name: X-Rate-Limit-Reset
+      in: header
+      description: Unix timestamp (seconds) when the rate limit resets
+      required: false
+      schema:
+        type: integer
+        example: 1736492400
+    
+    RateLimitPolicy:
+      name: X-Rate-Limit-Policy
+      in: header
+      description: Rate limit policy identifier
+      required: false
+      schema:
+        type: string
+        example: "free-tier-100-per-day"
+
+  headers:
+    RateLimitLimit:
+      description: Maximum number of requests allowed in the current time window
+      schema:
+        type: integer
+        example: 100
+    
+    RateLimitRemaining:
+      description: Number of requests remaining in the current time window
+      schema:
+        type: integer
+        example: 42
+    
+    RateLimitReset:
+      description: Unix timestamp (seconds) when the rate limit resets
+      schema:
+        type: integer
+        example: 1736492400
+    
+    RateLimitPolicy:
+      description: Rate limit policy identifier
+      schema:
+        type: string
+        example: "free-tier-100-per-day"

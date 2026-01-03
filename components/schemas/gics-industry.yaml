@@ -1,0 +1,182 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - GICS Industry Schemas
+  version: '1'
+
+components:
+  schemas:
+    IndustryCode:
+      type: string
+      description: GICS industry code (6-digit)
+      enum:
+        - '101010'  # Energy Equipment & Services
+        - '101020'  # Oil, Gas & Consumable Fuels
+        - '151010'  # Chemicals
+        - '151020'  # Construction Materials
+        - '151030'  # Containers & Packaging
+        - '151040'  # Metals & Mining
+        - '151050'  # Paper & Forest Products
+        - '201010'  # Aerospace & Defense
+        - '201020'  # Building Products
+        - '201030'  # Construction & Engineering
+        - '201040'  # Electrical Equipment
+        - '201050'  # Industrial Conglomerates
+        - '201060'  # Machinery
+        - '201070'  # Trading Companies & Distributors
+        - '202010'  # Commercial Services & Supplies
+        - '202020'  # Professional Services
+        - '203010'  # Air Freight & Logistics
+        - '203020'  # Airlines
+        - '203030'  # Marine Transportation
+        - '203040'  # Ground Transportation
+        - '203050'  # Transportation Infrastructure
+        - '251010'  # Automobile Components
+        - '251020'  # Automobiles
+        - '252010'  # Household Durables
+        - '252020'  # Leisure Products
+        - '252030'  # Textiles, Apparel & Luxury Goods
+        - '253010'  # Hotels, Restaurants & Leisure
+        - '253020'  # Diversified Consumer Services
+        - '255010'  # Distributors
+        - '255020'  # Internet & Direct Marketing Retail
+        - '255030'  # Broadline Retail
+        - '255040'  # Specialty Retail
+        - '301010'  # Consumer Staples Distribution & Retail
+        - '302010'  # Beverages
+        - '302020'  # Food Products
+        - '302030'  # Tobacco
+        - '303010'  # Household Products
+        - '303020'  # Personal Care Products
+        - '351010'  # Health Care Equipment & Supplies
+        - '351020'  # Health Care Providers & Services
+        - '351030'  # Health Care Technology
+        - '352010'  # Biotechnology
+        - '352020'  # Pharmaceuticals
+        - '352030'  # Life Sciences Tools & Services
+        - '401010'  # Banks
+        - '401020'  # Thrifts & Mortgage Finance
+        - '402010'  # Diversified Financial Services
+        - '402020'  # Consumer Finance
+        - '402030'  # Capital Markets
+        - '402040'  # Mortgage Real Estate Investment Trusts (REITs)
+        - '403010'  # Insurance
+        - '451010'  # Internet Services & Infrastructure
+        - '451020'  # IT Services
+        - '451030'  # Software
+        - '452010'  # Communications Equipment
+        - '452020'  # Technology Hardware, Storage & Peripherals
+        - '452030'  # Electronic Equipment, Instruments & Components
+        - '453010'  # Semiconductors & Semiconductor Equipment
+        - '501010'  # Diversified Telecommunication Services
+        - '501020'  # Wireless Telecommunication Services
+        - '502010'  # Media
+        - '502020'  # Entertainment
+        - '502030'  # Interactive Media & Services
+        - '551010'  # Electric Utilities
+        - '551020'  # Gas Utilities
+        - '551030'  # Multi-Utilities
+        - '551040'  # Water Utilities
+        - '551050'  # Independent Power and Renewable Electricity Producers
+        - '601010'  # Diversified REITs
+        - '601025'  # Industrial REITs
+        - '601030'  # Hotel & Resort REITs
+        - '601040'  # Office REITs
+        - '601050'  # Health Care REITs
+        - '601060'  # Residential REITs
+        - '601070'  # Retail REITs
+        - '601080'  # Specialized REITs
+        - '602010'  # Real Estate Management & Development
+
+    IndustryName:
+      type: string
+      description: GICS industry name
+      enum:
+        - 'Energy Equipment & Services'
+        - 'Oil, Gas & Consumable Fuels'
+        - 'Chemicals'
+        - 'Construction Materials'
+        - 'Containers & Packaging'
+        - 'Metals & Mining'
+        - 'Paper & Forest Products'
+        - 'Aerospace & Defense'
+        - 'Building Products'
+        - 'Construction & Engineering'
+        - 'Electrical Equipment'
+        - 'Industrial Conglomerates'
+        - 'Machinery'
+        - 'Trading Companies & Distributors'
+        - 'Commercial Services & Supplies'
+        - 'Professional Services'
+        - 'Air Freight & Logistics'
+        - 'Airlines'
+        - 'Marine Transportation'
+        - 'Ground Transportation'
+        - 'Transportation Infrastructure'
+        - 'Automobile Components'
+        - 'Automobiles'
+        - 'Household Durables'
+        - 'Leisure Products'
+        - 'Textiles, Apparel & Luxury Goods'
+        - 'Hotels, Restaurants & Leisure'
+        - 'Diversified Consumer Services'
+        - 'Distributors'
+        - 'Internet & Direct Marketing Retail'
+        - 'Broadline Retail'
+        - 'Specialty Retail'
+        - 'Consumer Staples Distribution & Retail'
+        - 'Beverages'
+        - 'Food Products'
+        - 'Tobacco'
+        - 'Household Products'
+        - 'Personal Care Products'
+        - 'Health Care Equipment & Supplies'
+        - 'Health Care Providers & Services'
+        - 'Health Care Technology'
+        - 'Biotechnology'
+        - 'Pharmaceuticals'
+        - 'Life Sciences Tools & Services'
+        - 'Banks'
+        - 'Thrifts & Mortgage Finance'
+        - 'Diversified Financial Services'
+        - 'Consumer Finance'
+        - 'Capital Markets'
+        - 'Mortgage Real Estate Investment Trusts (REITs)'
+        - 'Insurance'
+        - 'Internet Services & Infrastructure'
+        - 'IT Services'
+        - 'Software'
+        - 'Communications Equipment'
+        - 'Technology Hardware, Storage & Peripherals'
+        - 'Electronic Equipment, Instruments & Components'
+        - 'Semiconductors & Semiconductor Equipment'
+        - 'Diversified Telecommunication Services'
+        - 'Wireless Telecommunication Services'
+        - 'Media'
+        - 'Entertainment'
+        - 'Interactive Media & Services'
+        - 'Electric Utilities'
+        - 'Gas Utilities'
+        - 'Multi-Utilities'
+        - 'Water Utilities'
+        - 'Independent Power and Renewable Electricity Producers'
+        - 'Diversified REITs'
+        - 'Industrial REITs'
+        - 'Hotel & Resort REITs'
+        - 'Office REITs'
+        - 'Health Care REITs'
+        - 'Residential REITs'
+        - 'Retail REITs'
+        - 'Specialized REITs'
+        - 'Real Estate Management & Development'
+
+    Industry:
+      type: object
+      required: [ code, name ]
+      properties:
+        code:
+          $ref: '#/components/schemas/IndustryCode'
+        name:
+          $ref: '#/components/schemas/IndustryName'
+      example:
+        code: '452020'
+        name: 'Technology Hardware, Storage & Peripherals'

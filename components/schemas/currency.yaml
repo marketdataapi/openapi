@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - Currency Schemas
+  version: '1'
+
+components:
+  schemas:
+    CurrencyCode:
+      type: string
+      description: ISO 4217 currency code (most important for market data)
+      enum:
+        - USD  # United States Dollar (dominant global currency)
+        - CNY  # Chinese Yuan Renminbi (world's second largest economy)
+        - EUR  # Euro (European Union)
+        - JPY  # Japanese Yen (major Asian currency)
+        - GBP  # British Pound Sterling (UK)
+        - CHF  # Swiss Franc (safe haven)
+        - CAD  # Canadian Dollar (commodity currency)
+        - AUD  # Australian Dollar (commodity currency)
+        - HKD  # Hong Kong Dollar (major financial hub)
+        - SGD  # Singapore Dollar (ASEAN financial hub)
+        - RUB  # Russian Ruble (commodity/energy currency)
+        - ZAR  # South African Rand (major African currency)
+        - BRL  # Brazilian Real (largest Latin American economy)
+        - MXN  # Mexican Peso (NAFTA/important developing economy)
+        - INR  # Indian Rupee (developing economy)
+
+        # Others
+        - AED
+        - NOK
+        - DKK
+        - SEK
+
+    Currency:
+      type: object
+      required:
+        - code
+        - numeric_code
+        - minor_unit
+        - iso_name
+      properties:
+        code:
+          $ref: '#/components/schemas/CurrencyCode'
+          description: ISO 4217 three-letter alphabetic code
+          example: 'USD'
+        numeric_code:
+          type: string
+          description: ISO 4217 three-digit numeric code
+          pattern: '^[0-9]{3}$'
+          example: '840'
+        minor_unit:
+          type: integer
+          description: Number of minor unit digits (decimal places)
+          minimum: 0
+          maximum: 4
+          example: 2
+        symbol:
+          type: string
+          description: Currency symbol (if available)
+          example: '$'
+        iso_name:
+          type: string
+          description: Official ISO 4217 currency name
+          example: 'United States dollar'
