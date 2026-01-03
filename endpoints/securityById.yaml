@@ -1,0 +1,59 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - Security by Identifier
+  version: '1'
+
+security:
+  - apiKey: []
+
+components:
+  pathItems:
+    SecurityByIdentifier:
+      get:
+        summary: Get securities by identifier
+        operationId: getSecurity
+        description: |
+          Retrieve a single securities by its identifier.
+        parameters:
+          - $ref: '../components/parameters/path.yaml#/components/parameters/SecurityIdentifierPathParam'
+          # Conditional request headers for ETag caching
+          - $ref: '../components/headers/cache.yaml#/components/parameters/IfNoneMatch'
+          - $ref: '../components/headers/cache.yaml#/components/parameters/IfModifiedSince'
+        responses:
+          '200':
+            description: Security found
+            headers:
+              X-Rate-Limit-Limit:
+                $ref: '../components/headers/rate-limit.yaml#/components/headers/RateLimitLimit'
+              X-Rate-Limit-Remaining:
+                $ref: '../components/headers/rate-limit.yaml#/components/headers/RateLimitRemaining'
+              X-Rate-Limit-Reset:
+                $ref: '../components/headers/rate-limit.yaml#/components/headers/RateLimitReset'
+              X-Rate-Limit-Policy:
+                $ref: '../components/headers/rate-limit.yaml#/components/headers/RateLimitPolicy'
+              Cache-Control:
+                $ref: '../components/headers/cache.yaml#/components/headers/CacheControl'
+              ETag:
+                $ref: '../components/headers/cache.yaml#/components/headers/ETag'
+              Last-Modified:
+                $ref: '../components/headers/cache.yaml#/components/headers/LastModified'
+            content:
+              application/json:
+                schema:
+                  $ref: '../components/schemas/security.yaml#/components/schemas/Security'
+          '304':
+            $ref: '../components/responses.yaml#/components/responses/NotModified'
+          '400':
+            $ref: '../components/responses.yaml#/components/responses/BadRequest'
+          '401':
+            $ref: '../components/responses.yaml#/components/responses/Unauthorized'
+          '402':
+            $ref: '../components/responses.yaml#/components/responses/PaymentRequired'
+          '403':
+            $ref: '../components/responses.yaml#/components/responses/Forbidden'
+          '404':
+            $ref: '../components/responses.yaml#/components/responses/NotFound'
+          '429':
+            $ref: '../components/responses.yaml#/components/responses/TooManyRequests'
+          '500':
+            $ref: '../components/responses.yaml#/components/responses/InternalServerError'

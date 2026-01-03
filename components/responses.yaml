@@ -1,0 +1,83 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - Shared Responses
+  version: '1'
+
+components:
+  responses:
+    BadRequest:
+      description: Invalid request parameters
+      content:
+        application/problem+json:
+          schema:
+            $ref: './schemas/error.yaml#/components/schemas/ProblemDetail'
+          examples:
+            invalidQuery:
+              summary: Invalid search query
+              value:
+                type: 'https://marketdataapi.com/errors/bad-request'
+                title: 'Invalid Request Parameters'
+                status: 400
+                detail: 'Query parameter ''q'' must be at least 1 character long'
+                instance: '/v1/securities?q='
+                code: 'validation/invalid-parameter'
+
+    Unauthorized:
+      description: Authentication failed
+      content:
+        application/problem+json:
+          schema:
+            $ref: './schemas/error.yaml#/components/schemas/ProblemDetail'
+
+    TooManyRequests:
+      description: Rate limit exceeded
+      content:
+        application/problem+json:
+          schema:
+            $ref: './schemas/error.yaml#/components/schemas/ProblemDetail'
+
+    PaymentRequired:
+      description: Subscription required for this endpoint
+      content:
+        application/problem+json:
+          schema:
+            $ref: './schemas/error.yaml#/components/schemas/ProblemDetail'
+
+    Forbidden:
+      description: Authenticated but forbidden
+      content:
+        application/problem+json:
+          schema:
+            $ref: './schemas/error.yaml#/components/schemas/ProblemDetail'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/problem+json:
+          schema:
+            $ref: './schemas/error.yaml#/components/schemas/ProblemDetail'
+
+    InternalServerError:
+      description: Unexpected server error
+      content:
+        application/problem+json:
+          schema:
+            $ref: './schemas/error.yaml#/components/schemas/ProblemDetail'
+
+    NotModified:
+      description: Not Modified - data hasn't changed since last request
+      headers:
+        X-Rate-Limit-Limit:
+          $ref: './headers/rate-limit.yaml#/components/headers/RateLimitLimit'
+        X-Rate-Limit-Remaining:
+          $ref: './headers/rate-limit.yaml#/components/headers/RateLimitRemaining'
+        X-Rate-Limit-Reset:
+          $ref: './headers/rate-limit.yaml#/components/headers/RateLimitReset'
+        X-Rate-Limit-Policy:
+          $ref: './headers/rate-limit.yaml#/components/headers/RateLimitPolicy'
+        Cache-Control:
+          $ref: './headers/cache.yaml#/components/headers/CacheControl'
+        ETag:
+          $ref: './headers/cache.yaml#/components/headers/ETag'
+        Last-Modified:
+          $ref: './headers/cache.yaml#/components/headers/LastModified'

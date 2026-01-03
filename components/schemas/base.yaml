@@ -1,0 +1,58 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - Base Schemas
+  version: '1'
+
+components:
+  schemas:
+    Meta:
+      type: object
+      properties:
+        total:
+          type: integer
+          minimum: 0
+          example: 100
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+          example: 20
+        offset:
+          type: integer
+          minimum: 0
+          example: 40
+        took_ms:
+          type: integer
+          description: Total execution time in milliseconds
+          minimum: 0
+          example: 47
+
+    Links:
+      type: object
+      properties:
+        self:
+          type: string
+          format: uri-reference
+          example: '/v1/securities?limit=20&offset=40'
+        next:
+          type: string
+          format: uri-reference
+          example: '/v1/securities?limit=20&offset=60'
+        prev:
+          type: string
+          format: uri-reference
+          example: '/v1/securities?limit=20&offset=20'
+
+    BaseCollection:
+      type: object
+      required: [meta, links, data]
+      properties:
+        meta:
+          $ref: '#/components/schemas/Meta'
+        links:
+          $ref: '#/components/schemas/Links'
+        data:
+          type: array
+          items:
+            type: object
+          description: The primary data collection; structure varies by endpoint

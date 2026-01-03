@@ -1,0 +1,27 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - Query Parameters
+  version: '1'
+
+components:
+  parameters:
+    LimitQueryParam:
+      name: limit
+      in: query
+      description: Maximum number of items to return
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+
+    OffsetQueryParam:
+      name: offset
+      in: query
+      description: Pagination offset
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0

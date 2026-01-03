@@ -1,0 +1,28 @@
+name: Update Website Docs
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'openapi.json'
+      - 'openapi.yaml'
+      - 'docs/**'
+      - '*.md'
+
+jobs:
+  update-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout openapi repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Trigger website deployment
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.WEBSITE_DEPLOY_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/marketdataapi/website/dispatches \
+            -d '{"event_type": "openapi-updated", "client_payload": {"sha": "${{ github.sha }}", "ref": "${{ github.ref }}"}}'
+

@@ -1,0 +1,59 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - Error Schemas
+  version: '1'
+
+components:
+  schemas:
+    # RFC 7807 compliant problem detail
+    ProblemDetail:
+      type: object
+      required: [ type, title, status, code ]
+      properties:
+        type:
+          type: string
+          format: uri
+          description: Error type identifier URI
+        title:
+          type: string
+          description: Human-readable summary
+          example: 'Resource Not Found'
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code
+          example: 404
+        detail:
+          type: string
+          description: Detailed explanation
+          example: 'The requested securities could not be found'
+        instance:
+          type: string
+          format: uri-reference
+          description: Specific occurrence URI
+          example: '/v1/securities/AAPL'
+        code:
+          $ref: '#/components/schemas/ErrorCode'
+        violations:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                description: Path to invalid field
+              message:
+                type: string
+                description: Violation description
+
+    # Machine-readable error codes
+    ErrorCode:
+      type: string
+      description: Error response codes
+      enum:
+        - auth/too-many-requests
+        - auth/invalid-token
+        - resource/not-found
+        - resource/access-denied
+        - server/internal-error
+        - validation/invalid-parameter

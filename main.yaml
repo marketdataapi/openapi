@@ -1,0 +1,64 @@
+openapi: 3.1.0
+
+info:
+  title: MarketDataAPI.com
+  version: '1'
+  contact:
+    name: API Support
+    email: support@marketdataapi.com
+    url: https://marketdataapi.com/support
+  license:
+    name: Commercial
+    url: https://marketdataapi.com/licensing
+  termsOfService: https://marketdataapi.com/terms
+  x-versioning:
+    current: '1'
+    latest: '1'
+    deprecated: []
+    sunset: []
+    supported:
+      - '1'
+
+servers:
+  - url: https://api.marketdataapi.com/v1
+    description: Current stable version (v1)
+    variables:
+      version:
+        default: '1'
+        enum: ['1']
+
+externalDocs:
+  description: API Documentation
+  url: https://www.marketdataapi.com/docs
+
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: |
+        Your API key for authentication.
+        
+        **Getting an API Key:**
+        1. Sign up at [MarketDataAPI.com](https://dashboard.marketdataapi.com/signup)
+        2. Navigate to your dashboard
+        3. Generate a new API key
+        
+        **Rate Limits by Tier:**
+        - Free: 100 API requests/day
+        - Enterprise ($100/month): 300 API requests/minute
+
+        **Caching Support:**
+        All GET endpoints support ETag-based caching. Use `If-None-Match` and `If-Modified-Since`
+        headers to implement conditional requests and reduce bandwidth usage.
+
+
+paths:
+  /securities:
+    $ref: './endpoints/securities.yaml#/components/pathItems/SearchSecurities'
+  /securities/{identifier}:
+    $ref: './endpoints/securityById.yaml#/components/pathItems/SecurityByIdentifier'
+
+security:
+  - apiKey: []

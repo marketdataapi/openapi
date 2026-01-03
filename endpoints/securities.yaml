@@ -1,0 +1,200 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - Search
+  version: '1'
+
+security:
+  - apiKey: []
+
+components:
+  pathItems:
+    SearchSecurities:
+      get:
+        operationId: searchSecurities
+        summary: Security search
+        description: |
+          Unified search endpoint that understands financial terminology, corrects typos,
+          maps synonyms, and returns results sorted by relevance.
+          
+          ## Key Features
+          
+          ### 1. Multi-Identifier Search
+          Search by any identifier type in a single query:
+          
+          - **Symbols**: `AAPL`, `MSFT`, `AAPL.US`, `AAPL.L`
+          - **Names**: `Apple Inc`, `Microsoft Corp`
+          - **ISIN**: `US0378331005`
+          - **CUSIP**: `037833100`
+          - **CIK**: `0000320193`
+          
+          ### 2. Intelligent Matching
+          - **Fuzzy Matching**: `'Mircosoft'` → Microsoft Corp
+          - **Synonym Mapping**: `'Facebook'` → Meta Platforms Inc
+          - **Common Typos**: `'Appel'` → Apple Inc
+          - **Locale Aware**: `'Гугл'` → `'Google'`
+          - **Variant Aware**: Groups symbol variants across exchanges
+          
+          ### 3. Corporate Hierarchy
+          - **Parent/Subsidiary**: `'YouTube'` → Alphabet Inc (GOOGL)
+          - **Related Entities**: Returns corporate family trees
+          
+          ### 4. Result Organization
+          - **Sorted by relevance** with match scores
+          - **Pagination support** with standard limit/offset
+          - **Performance metrics** included in response
+          - **Global coverage** is included in all paid tiers, with no regional restrictions.
+          
+          ## Response Structure
+          
+          The response follows the standard collection pattern with:
+          1. **Pagination metadata**: total count, limit, offset, and execution time
+          2. **Navigation links**: self, next, previous
+          3. **Data array**: search results with match scores
+          
+          ## Rate Limits
+          - Free tier: 100 API requests/day
+          - Enterprise tier: 300 API requests/minute
+        parameters:
+          - name: q
+            in: query
+            description: 'Search query'
+            required: true
+            schema:
+              type: string
+              minLength: 1
+              maxLength: 100
+            x-stoplight:
+              priority: 1
+            example: 'apple'
+          - name: search_in
+            in: query
+            description: 'Comma-separated list of fields to search'
+            schema:
+              type: string
+              pattern: '^[A-Z]+(,[A-Z]+)*$'
+              example: 'ISIN,CIK,SYMBOL'
+              enum: ['SYMBOL', 'NAME', 'ISIN', 'CUSIP', 'CIK']
+          - name: types
+            in: query
+            required: false
+            description: |
+              Filter results by securities type. Multiple types can be specified as comma-separated values.
+            schema:
+              type: string
+              pattern: '^[A-Z]+(,[A-Z]+)*$'
+              example: 'COMMON_STOCK,ETF'
+          - name: exchanges
+            in: query
+            required: false
+            description: |
+              Filter by exchange MIC code.
+              Supports multiple exchanges as comma-separated values.
+            schema:
+              type: string
+              pattern: '^[A-Z]+(,[A-Z]+)*$'
+              example: 'XNYS,XPAR'
+          - name: currencies
+            in: query
+            description: |
+              Filter by trading currency (ISO 4217).
+              Supports multiple currencies as comma-separated values.
+            schema:
+              type: string
+              pattern: '^[A-Z]{3}(,[A-Z]{3})*$'
+              example: 'USD,EUR,GBP'
+          - name: countries
+            in: query
+            description: |
+              Filter by country of incorporation or trading country (ISO 3166-1 alpha-2 code).
+              Supports multiple countries as comma-separated values.
+            schema:
+              type: string
+              pattern: '^[A-Z]{2}(,[A-Z]{2})*$'
+              example: 'US,GB,DE'
+          - name: sectors
+            in: query
+            description: Filter by GICS sector code (10, 15, 20, etc.)
+            schema:
+              type: string
+              pattern: '^\d{2}(,\d{2})*$'
+          - name: include_inactive
+            in: query
+            description: |
+              Include inactive or delisted securities in search results.
+              Useful for historical analysis and corporate action tracking.
+            schema:
+              type: boolean
+              default: false
+          - $ref: '../components/parameters/query.yaml#/components/parameters/LimitQueryParam'
+          - $ref: '../components/parameters/query.yaml#/components/parameters/OffsetQueryParam'
+          - $ref: '../components/headers/cache.yaml#/components/parameters/IfNoneMatch'
+          - $ref: '../components/headers/cache.yaml#/components/parameters/IfModifiedSince'
+        responses:
+          '200':
+            description: Search results
+            headers:
+              X-Rate-Limit-Limit:
+                $ref: '../components/headers/rate-limit.yaml#/components/headers/RateLimitLimit'
+              X-Rate-Limit-Remaining:
+                $ref: '../components/headers/rate-limit.yaml#/components/headers/RateLimitRemaining'
+              X-Rate-Limit-Reset:
+                $ref: '../components/headers/rate-limit.yaml#/components/headers/RateLimitReset'
+              X-Rate-Limit-Policy:
+                $ref: '../components/headers/rate-limit.yaml#/components/headers/RateLimitPolicy'
+              Cache-Control:
+                $ref: '../components/headers/cache.yaml#/components/headers/CacheControl'
+              ETag:
+                $ref: '../components/headers/cache.yaml#/components/headers/ETag'
+              Last-Modified:
+                $ref: '../components/headers/cache.yaml#/components/headers/LastModified'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SearchResponse'
+          '304':
+            $ref: '../components/responses.yaml#/components/responses/NotModified'
+          '400':
+            $ref: '../components/responses.yaml#/components/responses/BadRequest'
+          '401':
+            $ref: '../components/responses.yaml#/components/responses/Unauthorized'
+          '402':
+            $ref: '../components/responses.yaml#/components/responses/PaymentRequired'
+          '403':
+            $ref: '../components/responses.yaml#/components/responses/Forbidden'
+          '404':
+            $ref: '../components/responses.yaml#/components/responses/NotFound'
+          '429':
+            $ref: '../components/responses.yaml#/components/responses/TooManyRequests'
+          '500':
+            $ref: '../components/responses.yaml#/components/responses/InternalServerError'
+
+  schemas:
+    SearchMatch:
+      type: object
+      required: [ score ]
+      properties:
+        score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: How well this matches the query
+          example: 0.95
+
+    SearchResult:
+      type: object
+      required: [ match, securities ]
+      properties:
+        match:
+          $ref: '#/components/schemas/SearchMatch'
+        securities:
+          $ref: '../components/schemas/security.yaml#/components/schemas/Security'
+
+    SearchResponse:
+      allOf:
+        - $ref: '../components/schemas/base.yaml#/components/schemas/BaseCollection'
+        - type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SearchResult'

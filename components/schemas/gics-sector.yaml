@@ -1,0 +1,50 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - GICS Sector Schemas
+  version: '1'
+
+components:
+  schemas:
+    SectorCode:
+      type: string
+      description: GICS sector code (2-digit)
+      enum:
+        - '10'  # Energy
+        - '15'  # Materials
+        - '20'  # Industrials
+        - '25'  # Consumer Discretionary
+        - '30'  # Consumer Staples
+        - '35'  # Health Care
+        - '40'  # Financials
+        - '45'  # Information Technology
+        - '50'  # Communication Services
+        - '55'  # Utilities
+        - '60'  # Real Estate
+
+    SectorName:
+      type: string
+      description: GICS sector name
+      enum:
+        - 'Energy'
+        - 'Materials'
+        - 'Industrials'
+        - 'Consumer Discretionary'
+        - 'Consumer Staples'
+        - 'Health Care'
+        - 'Financials'
+        - 'Information Technology'
+        - 'Communication Services'
+        - 'Utilities'
+        - 'Real Estate'
+
+    Sector:
+      type: object
+      required: [ code, name ]
+      properties:
+        code:
+          $ref: '#/components/schemas/SectorCode'
+        name:
+          $ref: '#/components/schemas/SectorName'
+      example:
+        code: '45'
+        name: 'Information Technology'

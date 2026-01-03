@@ -1,0 +1,78 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - GICS Industry Group Schemas
+  version: '1'
+
+components:
+  schemas:
+    IndustryGroupCode:
+      type: string
+      description: GICS industry group code (4-digit)
+      enum:
+        - '1010'  # Energy
+        - '1510'  # Materials
+        - '2010'  # Capital Goods
+        - '2020'  # Commercial & Professional Services
+        - '2030'  # Transportation
+        - '2510'  # Automobiles & Components
+        - '2520'  # Consumer Durables & Apparel
+        - '2530'  # Consumer Services
+        - '2550'  # Consumer Discretionary Distribution & Retail
+        - '3010'  # Consumer Staples Distribution & Retail
+        - '3020'  # Food, Beverage & Tobacco
+        - '3030'  # Household & Personal Products
+        - '3510'  # Health Care Equipment & Services
+        - '3520'  # Pharmaceuticals, Biotechnology & Life Sciences
+        - '4010'  # Banks
+        - '4020'  # Financial Services
+        - '4030'  # Insurance
+        - '4510'  # Software & Services
+        - '4520'  # Technology Hardware & Equipment
+        - '4530'  # Semiconductors & Semiconductor Equipment
+        - '5010'  # Telecommunication Services
+        - '5020'  # Media & Entertainment
+        - '5510'  # Utilities
+        - '6010'  # Equity Real Estate Investment Trusts (REITs)
+        - '6020'  # Real Estate Management & Development
+
+    IndustryGroupName:
+      type: string
+      description: GICS industry group name
+      enum:
+        - 'Energy'
+        - 'Materials'
+        - 'Capital Goods'
+        - 'Commercial & Professional Services'
+        - 'Transportation'
+        - 'Automobiles & Components'
+        - 'Consumer Durables & Apparel'
+        - 'Consumer Services'
+        - 'Consumer Discretionary Distribution & Retail'
+        - 'Consumer Staples Distribution & Retail'
+        - 'Food, Beverage & Tobacco'
+        - 'Household & Personal Products'
+        - 'Health Care Equipment & Services'
+        - 'Pharmaceuticals, Biotechnology & Life Sciences'
+        - 'Banks'
+        - 'Financial Services'
+        - 'Insurance'
+        - 'Software & Services'
+        - 'Technology Hardware & Equipment'
+        - 'Semiconductors & Semiconductor Equipment'
+        - 'Telecommunication Services'
+        - 'Media & Entertainment'
+        - 'Utilities'
+        - 'Equity Real Estate Investment Trusts (REITs)'
+        - 'Real Estate Management & Development'
+
+    IndustryGroup:
+      type: object
+      required: [ code, name ]
+      properties:
+        code:
+          $ref: '#/components/schemas/IndustryGroupCode'
+        name:
+          $ref: '#/components/schemas/IndustryGroupName'
+      example:
+        code: '4520'
+        name: 'Technology Hardware & Equipment'

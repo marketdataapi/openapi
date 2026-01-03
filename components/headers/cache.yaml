@@ -1,0 +1,84 @@
+openapi: 3.1.0
+info:
+  title: MarketDataAPI.com - Cache Control Headers
+  version: '1'
+
+components:
+  parameters:
+    CacheControl:
+      name: Cache-Control
+      in: header
+      description: Cache control directives
+      required: false
+      schema:
+        type: string
+        enum:
+          - 'public, max-age=300, stale-while-revalidate=60'
+          - 'public, max-age=3600, stale-while-revalidate=300'
+          - 'private, no-cache, max-age=0'
+        example: 'public, max-age=300, stale-while-revalidate=60'
+    
+    ETag:
+      name: ETag
+      in: header
+      description: Entity tag for conditional requests
+      required: false
+      schema:
+        type: string
+        pattern: '^"[A-Za-z0-9+/=]+"$'
+        example: '"abc123xyz456"'
+    
+    LastModified:
+      name: Last-Modified
+      in: header
+      description: Timestamp of last modification
+      required: false
+      schema:
+        type: string
+        format: date-time
+        example: '2025-01-15T10:30:00Z'
+    
+    IfNoneMatch:
+      name: If-None-Match
+      in: header
+      description: ETag value from previous response
+      required: false
+      schema:
+        type: string
+        pattern: '^"[A-Za-z0-9+/=]+"$'
+        example: '"abc123xyz456"'
+    
+    IfModifiedSince:
+      name: If-Modified-Since
+      in: header
+      description: Date from previous response
+      required: false
+      schema:
+        type: string
+        format: date-time
+        example: '2025-01-15T09:00:00Z'
+
+  headers:
+    CacheControl:
+      description: Cache control directives
+      schema:
+        type: string
+        enum:
+          - 'public, max-age=300, stale-while-revalidate=60'
+          - 'public, max-age=3600, stale-while-revalidate=300'
+          - 'private, no-cache, max-age=0'
+        example: 'public, max-age=300, stale-while-revalidate=60'
+    
+    ETag:
+      description: Entity tag for conditional requests
+      schema:
+        type: string
+        pattern: '^"[A-Za-z0-9+/=]+"$'
+        example: '"abc123xyz456"'
+    
+    LastModified:
+      description: Timestamp of last modification
+      schema:
+        type: string
+        format: date-time
+        example: '2025-01-15T10:30:00Z'
