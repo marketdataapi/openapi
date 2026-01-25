@@ -10,6 +10,8 @@ components:
   pathItems:
     SecurityByIdentifier:
       get:
+        tags:
+          - Securities
         summary: Get securities by identifier
         operationId: getSecurity
         description: |

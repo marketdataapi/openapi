@@ -10,6 +10,8 @@ components:
   pathItems:
     SearchSecurities:
       get:
+        tags:
+          - Securities
         operationId: searchSecurities
         summary: Security search
         description: |
